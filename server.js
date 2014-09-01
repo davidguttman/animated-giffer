@@ -17,8 +17,10 @@ var createServer = module.exports = function() {
     }
 
     if (routeParts[1] === 'create') {
+      var series = routeParts[2]
       var fps = routeParts[3] || '30'
-      req.params = {series: routeParts[2], fps: fps}
+      req.params = {series: series, fps: fps}
+      console.log('create', req.params)
       return create(req, res)
     }
 
@@ -62,7 +64,11 @@ function create (req, res) {
     cmd += ' -layers OptimizeTransparency'
     cmd += ' ' + outPath
 
+    console.log('Executing command:', cmd)
+
     exec(cmd, function(err, stdout, stderr) {
+      if (err) return console.error(err)
+
       res.writeHead(200, {'Content-Type':'image/gif'})
       fs.createReadStream(outPath).pipe(res)
     })
