@@ -74,6 +74,7 @@ function create (req, res) {
 
 if (require.main === module) {
   var port = process.env.PORT || 3001
+  var server = createServer()
   server.listen(port)
   console.log('listening on port', port)
 }
