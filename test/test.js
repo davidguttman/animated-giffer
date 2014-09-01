@@ -43,7 +43,8 @@ test('create', function(t) {
   servertest(server(), path, opts, function(err, res) {
     t.ifError(err, 'no error')
     t.equal(res.statusCode, 200, 'correct statusCode')
-    t.equal(res.body, 'OK', 'correct body content')
+    t.equal(res.headers['content-type'], 'image/gif', 'correct ctype')
+    t.equal(res.body.length, 20342, 'correct body content')
 
     var expectedPath = imgDir + series + '.gif'
     fs.exists(expectedPath, function(exists) {

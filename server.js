@@ -63,7 +63,8 @@ function create (req, res) {
     cmd += ' ' + outPath
 
     exec(cmd, function(err, stdout, stderr) {
-      res.end('OK')
+      res.writeHead(200, {'Content-Type':'image/gif'})
+      fs.createReadStream(outPath).pipe(res)
     })
   })
 
