@@ -61,7 +61,7 @@ function create (req, res) {
     cmd += ' -delay 1x' + req.params.fps
     cmd += ' `seq -f ' + seriesDir + '/%05g.png 0 ' + iEnd + '`'
     cmd += ' -coalesce'
-    cmd += ' -layers OptimizeTransparency'
+    cmd += ' -layers Optimize'
     cmd += ' ' + outPath
 
     console.log('Executing command:', cmd)
