@@ -1,7 +1,8 @@
-var http = require('http')
 var fs = require('fs')
+var http = require('http')
 var cors = require('corsify')
 var mkdirp = require('mkdirp')
+var exec = require('child_process').exec
 
 var pad = require('./pad.js')
 
@@ -16,7 +17,8 @@ var createServer = module.exports = function() {
     }
 
     if (routeParts[1] === 'create') {
-      req.params = {series: routeParts[2]}
+      var fps = routeParts[3] || '30'
+      req.params = {series: routeParts[2], fps: fps}
       return create(req, res)
     }
 
@@ -46,6 +48,25 @@ function upload (req, res) {
 }
 
 function create (req, res) {
+  var seriesDir = imgDir + '/' + req.params.series
+  var outPath = seriesDir + '.gif'
+
+  fs.readdir(seriesDir, function(err, files) {
+    var iStart = 0
+    var iEnd = files.length - 1
+
+    var cmd = 'convert'
+    cmd += ' -delay 1x' + req.params.fps
+    cmd += ' `seq -f ' + seriesDir + '/%05g.png 0 ' + iEnd + '`'
+    cmd += ' -coalesce'
+    cmd += ' -layers OptimizeTransparency'
+    cmd += ' ' + outPath
+
+    exec(cmd, function(err, stdout, stderr) {
+      res.end('OK')
+    })
+  })
+
   // convert -delay 1x30 `seq -f images/%04g.png 0 179` \
   //         -coalesce -layers OptimizeTransparency oren.gif
 }
