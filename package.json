@@ -1,0 +1,19 @@
+{
+  "name": "animated-giffer",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Guttman <david@guttman.io> (http://davidguttman.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "corsify": "^1.0.2",
+    "mkdirp": "^0.5.0"
+  },
+  "devDependencies": {
+    "servertest": "^1.1.0",
+    "tape": "^2.14.0"
+  }
+}
