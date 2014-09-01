@@ -3,6 +3,8 @@ var fs = require('fs')
 var cors = require('corsify')
 var mkdirp = require('mkdirp')
 
+var pad = require('./pad.js')
+
 var imgDir = '/tmp/animated-giffer'
 
 var createServer = module.exports = function() {
@@ -24,12 +26,12 @@ var createServer = module.exports = function() {
 function upload (req, res) {
   var seq = req.params.seq
   var series = req.params.series
-  console.log(series, seq);
 
+  var pSeq = pad(seq, 5)
   var dir = [imgDir, series].join('/')
 
   mkdirp(dir, function(err) {
-    var imgPath = dir + '/' + seq + '.png'
+    var imgPath = dir + '/' + pSeq + '.png'
 
     var buf = ''
     req.on('data', function(data) {buf += data})
